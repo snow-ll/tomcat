@@ -576,6 +576,7 @@ public class Catalina {
                     digester.startGeneratingCode();
                     generateClassHeader(digester, start);
                 }
+                // 解析xml文件，实例化Server
                 digester.parse(inputSource);
                 if (generateCode) {
                     generateClassFooter(digester);
@@ -662,12 +663,14 @@ public class Catalina {
 
         long t1 = System.nanoTime();
 
+        // 初始化目录结构
         initDirs();
 
         // Before digester - it may be needed
+        // 初始化命名服务
         initNaming();
 
-        // Parse main server.xml
+        // 解析 server.xml 文件，实例化Tomcat组件
         parseServerXml(true);
         Server s = getServer();
         if (s == null) {
@@ -683,6 +686,7 @@ public class Catalina {
 
         // Start the new server
         try {
+            // 初始化服务
             getServer().init();
         } catch (LifecycleException e) {
             if (Boolean.getBoolean("org.apache.catalina.startup.EXIT_ON_INIT_FAILURE")) {
@@ -732,6 +736,7 @@ public class Catalina {
 
         // Start the new server
         try {
+            // 启动服务
             getServer().start();
         } catch (LifecycleException e) {
             log.fatal(sm.getString("catalina.serverStartFail"), e);

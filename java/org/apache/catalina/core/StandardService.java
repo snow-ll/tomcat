@@ -534,6 +534,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
         super.initInternal();
 
         if (engine != null) {
+            // 初始化Engine
             engine.init();
         }
 
@@ -551,6 +552,7 @@ public class StandardService extends LifecycleMBeanBase implements Service {
         // Initialize our defined Connectors
         synchronized (connectorsLock) {
             for (Connector connector : connectors) {
+                // 实例化Connector
                 connector.init();
             }
         }

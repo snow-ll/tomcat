@@ -248,16 +248,20 @@ public final class Bootstrap {
      */
     public void init() throws Exception {
 
+        // 初始化类加载器
         initClassLoaders();
 
+        // 设置了当前线程的上下文类加载器为 catalinaLoader
         Thread.currentThread().setContextClassLoader(catalinaLoader);
 
+        // 加载安全相关的类
         SecurityClassLoad.securityClassLoad(catalinaLoader);
 
         // Load our startup class and call its process() method
         if (log.isTraceEnabled()) {
             log.trace("Loading startup class");
         }
+        // 加载Catalina启动类
         Class<?> startupClass = catalinaLoader.loadClass("org.apache.catalina.startup.Catalina");
         Object startupInstance = startupClass.getConstructor().newInstance();
 
@@ -436,9 +440,10 @@ public final class Bootstrap {
 
         synchronized (daemonLock) {
             if (daemon == null) {
-                // Don't set daemon until init() has completed
+                // 在 init 完成之前不要设置守护进程
                 Bootstrap bootstrap = new Bootstrap();
                 try {
+                    // 初始化
                     bootstrap.init();
                 } catch (Throwable t) {
                     handleThrowable(t);
@@ -468,8 +473,15 @@ public final class Bootstrap {
                 args[args.length - 1] = "stop";
                 daemon.stop();
             } else if (command.equals("start")) {
+                // org.apache.catalina.startup.Catalina
+                // 链式调用init、start
+                // Catalina -> Server -> GlobalNamingResources -> Service -> (Engine -> Host -> Context) -> Connector -> ProtocolHandler -> NioEndpoint(父类AbstractEndpoint)
+
+                // 设置Catalina.await
                 daemon.setAwait(true);
+                // 调用Catalina.load
                 daemon.load(args);
+                // 调用Catalina.start
                 daemon.start();
                 if (null == daemon.getServer()) {
                     System.exit(1);

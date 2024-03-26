@@ -785,6 +785,9 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
          * The background thread that adds sockets to the Poller, checks the
          * poller for triggered events and hands the associated socket off to an
          * appropriate processor as events occur.
+         *
+         * 将套接字添加到轮询器的后台线程检查轮询器是否触发了事件，并在事件发生时将关联的套接字移交给相应的处理器
+         * ---请求入口
          */
         @Override
         public void run() {

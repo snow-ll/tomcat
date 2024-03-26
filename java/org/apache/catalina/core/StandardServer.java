@@ -1012,7 +1012,7 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
         factory.setContainer(this);
         onameMBeanFactory = register(factory, "type=MBeanFactory");
 
-        // Register the naming resources
+        // 注册命名资源
         globalNamingResources.init();
 
         // Populate the extension validator with JARs from common and shared
@@ -1043,6 +1043,7 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
         // Initialize our defined Services
         synchronized (servicesLock) {
             for (Service service : services) {
+                // 实例化Service
                 service.init();
             }
         }

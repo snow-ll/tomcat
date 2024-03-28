@@ -56,6 +56,8 @@ public final class Mapper {
 
     /**
      * Array containing the virtual hosts definitions.
+     *
+     * 保存Host
      */
     // Package private to facilitate testing
     volatile MappedHost[] hosts = new MappedHost[0];
@@ -101,6 +103,7 @@ public final class Mapper {
     public synchronized void addHost(String name, String[] aliases, Host host) {
         name = renameWildcardHost(name);
         MappedHost[] newHosts = new MappedHost[hosts.length + 1];
+        // 创建MappedHost
         MappedHost newHost = new MappedHost(name, host);
         if (insertMap(hosts, newHosts, newHost)) {
             hosts = newHosts;
@@ -272,16 +275,21 @@ public final class Mapper {
         }
         int slashCount = slashCount(path);
         synchronized (mappedHost) {
+            // 创建ContextVersion
             ContextVersion newContextVersion =
                     new ContextVersion(version, path, slashCount, context, resources, welcomeResources);
             if (wrappers != null) {
+                // 添加Servlet
                 addWrappers(newContextVersion, wrappers);
             }
 
+            // 获取ContextList
             ContextList contextList = mappedHost.contextList;
             MappedContext mappedContext = exactFind(contextList.contexts, path);
             if (mappedContext == null) {
+                // 创建MappedContext
                 mappedContext = new MappedContext(path, newContextVersion);
+                // 添加到ContextList
                 ContextList newContextList = contextList.addContext(mappedContext, slashCount);
                 if (newContextList != null) {
                     updateContextList(mappedHost, newContextList);
@@ -663,6 +671,7 @@ public final class Mapper {
         }
         host.toChars();
         uri.toChars();
+        // 匹配逻辑
         internalMap(host.getCharChunk(), uri.getCharChunk(), version, mappingData);
     }
 
@@ -706,6 +715,7 @@ public final class Mapper {
         }
 
         // Virtual host mapping
+        // Host映射
         MappedHost[] hosts = this.hosts;
         MappedHost mappedHost = exactFindIgnoreCase(hosts, host);
         if (mappedHost == null) {
@@ -739,6 +749,7 @@ public final class Mapper {
         uri.setLimit(-1);
 
         // Context mapping
+        // Context映射
         ContextList contextList = mappedHost.contextList;
         MappedContext[] contexts = contextList.contexts;
         int pos = find(contexts, uri);
@@ -808,6 +819,7 @@ public final class Mapper {
         mappingData.contextSlashCount = contextVersion.slashCount;
 
         // Wrapper mapping
+        // Wrapper映射
         if (!contextVersion.isPaused()) {
             internalMapWrapper(contextVersion, uri, mappingData);
         }
@@ -1568,6 +1580,7 @@ public final class Mapper {
 
     protected static final class ContextList {
 
+        // 保存每个Host中的Context
         public final MappedContext[] contexts;
         public final int nesting;
 
@@ -1619,6 +1632,10 @@ public final class Mapper {
         public final int slashCount;
         public final WebResourceRoot resources;
         public String[] welcomeResources;
+
+        /**
+         * MappedWrapper数组对应Servlet
+         */
         public MappedWrapper defaultWrapper = null;
         public MappedWrapper[] exactWrappers = new MappedWrapper[0];
         public MappedWrapper[] wildcardWrappers = new MappedWrapper[0];

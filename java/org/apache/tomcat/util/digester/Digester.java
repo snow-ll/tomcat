@@ -1533,6 +1533,7 @@ public class Digester extends DefaultHandler2 {
     public Object parse(InputSource input) throws IOException, SAXException {
         configure();
         getXMLReader().parse(input);
+        // tomcat根元素
         return root;
     }
 

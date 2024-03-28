@@ -95,6 +95,7 @@ final class StandardHostValve extends ValveBase {
     public void invoke(Request request, Response response) throws IOException, ServletException {
 
         // Select the Context to be used for this Request
+        // 去除当前请求的Context
         Context context = request.getContext();
         if (context == null) {
             // Don't overwrite an existing error
@@ -127,6 +128,7 @@ final class StandardHostValve extends ValveBase {
             // application for processing.
             try {
                 if (!response.isErrorReportRequired()) {
+                    // 请求传给Context
                     context.getPipeline().getFirst().invoke(request, response);
                 }
             } catch (Throwable t) {

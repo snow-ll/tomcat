@@ -103,7 +103,9 @@ public abstract class LifecycleBase implements Lifecycle {
 
 
     /**
-     * Allow sub classes to fire {@link Lifecycle} events.
+     * 触发生命周期事件
+     *
+     * {@link Lifecycle} events.
      *
      * @param type  Event type
      * @param data  Data associated with event.
@@ -400,6 +402,7 @@ public abstract class LifecycleBase implements Lifecycle {
         this.state = state;
         String lifecycleEvent = state.getLifecycleEvent();
         if (lifecycleEvent != null) {
+            // 触发start生命周期事件
             fireLifecycleEvent(lifecycleEvent, data);
         }
     }

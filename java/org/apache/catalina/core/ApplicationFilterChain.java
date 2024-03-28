@@ -151,6 +151,7 @@ public final class ApplicationFilterChain implements FilterChain {
                 }
             }
         } else {
+            // 执行过滤器
             internalDoFilter(request, response);
         }
     }
@@ -207,6 +208,7 @@ public final class ApplicationFilterChain implements FilterChain {
                 Object[] args = new Object[] { req, res };
                 SecurityUtil.doAsPrivilege("service", servlet, classTypeUsedInService, args, principal);
             } else {
+                // Servlet执行请求
                 servlet.service(request, response);
             }
         } catch (IOException | ServletException | RuntimeException e) {

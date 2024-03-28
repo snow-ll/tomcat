@@ -125,7 +125,7 @@ public class Acceptor<U> implements Runnable {
                     U socket = null;
                     try {
                         // Accept the next incoming connection from the server
-                        // socket
+                        // 接受socket
                         socket = endpoint.serverSocketAccept();
                     } catch (Exception ioe) {
                         // We didn't get a socket

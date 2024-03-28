@@ -107,6 +107,8 @@ public class MapperListener extends LifecycleMBeanBase implements ContainerListe
             Host host = (Host) conHost;
             if (!LifecycleState.NEW.equals(host.getState())) {
                 // Registering the host will register the context and wrappers
+                // Host(MappedHost) -> Context(ContextList -> MappedContext) -> Servlet(ContextVersion -> MappedWrapper)
+                // 注册Host
                 registerHost(host);
             }
         }
@@ -292,10 +294,12 @@ public class MapperListener extends LifecycleMBeanBase implements ContainerListe
     private void registerHost(Host host) {
 
         String[] aliases = host.findAliases();
+        // 添加Host
         mapper.addHost(host.getName(), aliases, host);
 
         for (Container container : host.findChildren()) {
             if (container.getState().isAvailable()) {
+                // 注册Context
                 registerContext((Context) container);
             }
         }
@@ -377,6 +381,7 @@ public class MapperListener extends LifecycleMBeanBase implements ContainerListe
             }
         }
 
+        // 添加ContextVersion
         mapper.addContextVersion(host.getName(), host, contextPath, context.getWebappVersion(), context, welcomeFiles,
                 resources, wrappers);
 

@@ -917,11 +917,13 @@ public final class StandardServer extends LifecycleMBeanBase implements Server {
             register(utilityExecutor, "type=UtilityExecutor");
         }
 
+        // 启动命名资源服务
         globalNamingResources.start();
 
         // Start our defined Services
         synchronized (servicesLock) {
             for (Service service : services) {
+                // 启动Service
                 service.start();
             }
         }

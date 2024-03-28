@@ -222,8 +222,8 @@ public class StandardEngine extends ContainerBase implements Engine {
 
     @Override
     protected void initInternal() throws LifecycleException {
-        // Ensure that a Realm is present before any attempt is made to start
-        // one. This will create the default NullRealm if necessary.
+        // 在尝试启动之前，请确保存在 Realm
+        // 如有必要，这将创建默认的 NullRealm
         getRealm();
         super.initInternal();
     }

@@ -299,6 +299,7 @@ public final class Bootstrap {
             param = new Object[1];
             param[0] = arguments;
         }
+        // 反射调用Catalina.load
         Method method = catalinaDaemon.getClass().getMethod(methodName, paramTypes);
         if (log.isTraceEnabled()) {
             log.trace("Calling startup class " + method);

@@ -282,7 +282,7 @@ public class HostConfig implements LifecycleListener {
 
 
     /**
-     * Process the START event for an associated Host.
+     * 处理关联主机的 START 事件。
      *
      * @param event The lifecycle event that has occurred
      */
@@ -309,6 +309,7 @@ public class HostConfig implements LifecycleListener {
         } else if (event.getType().equals(Lifecycle.BEFORE_START_EVENT)) {
             beforeStart();
         } else if (event.getType().equals(Lifecycle.START_EVENT)) {
+            // 启动
             start();
         } else if (event.getType().equals(Lifecycle.STOP_EVENT)) {
             stop();
@@ -456,7 +457,7 @@ public class HostConfig implements LifecycleListener {
 
 
     /**
-     * Deploy applications for any directories or WAR files that are found in our "application root" directory.
+     * 为在“应用程序根目录”中找到的任何目录或 WAR 文件部署应用程序。
      */
     protected void deployApps() {
         File appBase = host.getAppBaseFile();
@@ -1049,7 +1050,9 @@ public class HostConfig implements LifecycleListener {
 
 
     /**
-     * Deploy exploded webapps.
+     * Deploy exploded webapp
+     *
+     * 部署webapp
      *
      * @param appBase The base path for applications
      * @param files   The exploded webapps that should be deployed
@@ -1083,6 +1086,7 @@ public class HostConfig implements LifecycleListener {
                         }
 
                         // DeployDirectory will call removeServiced
+                        // 部署Context，执行run
                         results.add(es.submit(new DeployDirectory(this, cn, dir)));
                     } catch (Throwable t) {
                         ExceptionUtils.handleThrowable(t);
@@ -1132,6 +1136,7 @@ public class HostConfig implements LifecycleListener {
             if (deployThisXML && xml.exists()) {
                 synchronized (digesterLock) {
                     try {
+                        // 解析context.xml
                         context = (Context) digester.parse(xml);
                     } catch (Exception e) {
                         log.error(sm.getString("hostConfig.deployDescriptor.error", xml), e);
@@ -1172,6 +1177,7 @@ public class HostConfig implements LifecycleListener {
             context.setPath(cn.getPath());
             context.setWebappVersion(cn.getVersion());
             context.setDocBase(cn.getBaseName());
+            // 添加Context，完善host
             host.addChild(context);
         } catch (Throwable t) {
             ExceptionUtils.handleThrowable(t);
@@ -1558,7 +1564,7 @@ public class HostConfig implements LifecycleListener {
 
 
     /**
-     * Process a "start" event for this Host.
+     * 处理此主机的 start 事件
      */
     public void start() {
 

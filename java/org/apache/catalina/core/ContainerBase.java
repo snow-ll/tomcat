@@ -680,6 +680,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase implements Contai
         // locking the children object can cause problems elsewhere
         try {
             if ((getState().isAvailable() || LifecycleState.STARTING_PREP.equals(getState())) && startChildren) {
+                // 启动
                 child.start();
             }
         } catch (LifecycleException e) {
@@ -860,6 +861,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase implements Contai
         }
 
         // Start our child containers, if any
+        // 启动子容器
         Container[] children = findChildren();
         List<Future<Void>> results = new ArrayList<>(children.length);
         for (Container child : children) {
@@ -890,6 +892,7 @@ public abstract class ContainerBase extends LifecycleMBeanBase implements Contai
             ((Lifecycle) pipeline).start();
         }
 
+        // 设置生命周期状态
         setState(LifecycleState.STARTING);
 
         // Start our thread

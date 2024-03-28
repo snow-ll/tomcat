@@ -576,7 +576,7 @@ public class Catalina {
                     digester.startGeneratingCode();
                     generateClassHeader(digester, start);
                 }
-                // 解析xml文件，实例化Server
+                // 解析server.xml文件，实例化Server
                 digester.parse(inputSource);
                 if (generateCode) {
                     generateClassFooter(digester);

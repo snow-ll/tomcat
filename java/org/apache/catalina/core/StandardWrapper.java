@@ -957,9 +957,11 @@ public class StandardWrapper extends ContainerBase implements ServletConfig, Wra
      */
     @Override
     public synchronized void load() throws ServletException {
+        // 加载、初始化
         instance = loadServlet();
 
         if (!instanceInitialized) {
+            // 实例化
             initServlet(instance);
         }
 
@@ -1017,6 +1019,7 @@ public class StandardWrapper extends ContainerBase implements ServletConfig, Wra
 
             InstanceManager instanceManager = ((StandardContext) getParent()).getInstanceManager();
             try {
+                // 初始化
                 servlet = (Servlet) instanceManager.newInstance(servletClass);
             } catch (ClassCastException e) {
                 unavailable(null);

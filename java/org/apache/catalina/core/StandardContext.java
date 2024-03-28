@@ -4615,6 +4615,8 @@ public class StandardContext extends ContainerBase implements Context, Notificat
     /**
      * Load and initialize all servlets marked "load on startup" in the web application deployment descriptor.
      *
+     * 加载并初始化 Web 应用程序部署描述符中标记为“启动时加载”的所有 Servlet
+     *
      * @param children Array of wrappers for all currently defined servlets (including those not declared load on
      *                     startup)
      *
@@ -4631,6 +4633,7 @@ public class StandardContext extends ContainerBase implements Context, Notificat
                 continue;
             }
             Integer key = Integer.valueOf(loadOnStartup);
+            // 添加不存在的servlet
             map.computeIfAbsent(key, k -> new ArrayList<>()).add(wrapper);
         }
 
@@ -4638,6 +4641,7 @@ public class StandardContext extends ContainerBase implements Context, Notificat
         for (ArrayList<Wrapper> list : map.values()) {
             for (Wrapper wrapper : list) {
                 try {
+                    // 加载servlet
                     wrapper.load();
                 } catch (ServletException e) {
                     getLogger().error(
@@ -4689,6 +4693,7 @@ public class StandardContext extends ContainerBase implements Context, Notificat
         }
 
         // Post work directory
+        // 创建工作目录
         postWorkDirectory();
 
         // Add missing components as necessary
@@ -4709,6 +4714,7 @@ public class StandardContext extends ContainerBase implements Context, Notificat
         }
 
         if (getLoader() == null) {
+            // 加载WebappLoader
             WebappLoader webappLoader = new WebappLoader();
             webappLoader.setDelegate(getDelegate());
             setLoader(webappLoader);
@@ -4817,6 +4823,7 @@ public class StandardContext extends ContainerBase implements Context, Notificat
                 }
 
                 // Notify our interested LifecycleListeners
+                // 这里读取了web.xml
                 fireLifecycleEvent(CONFIGURE_START_EVENT, null);
 
                 // Start our child containers, if not already started
@@ -4944,6 +4951,7 @@ public class StandardContext extends ContainerBase implements Context, Notificat
             }
 
             // Load and initialize all "load on startup" servlets
+            // 加载初始化servlet
             if (ok) {
                 if (!loadOnStartup(findChildren())) {
                     log.error(sm.getString("standardContext.servletFail"));

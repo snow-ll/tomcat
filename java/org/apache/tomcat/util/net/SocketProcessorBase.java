@@ -49,12 +49,15 @@ public abstract class SocketProcessorBase<S> implements Runnable {
             if (socketWrapper.isClosed()) {
                 return;
             }
+            // 实现接口方法
             doRun();
         } finally {
             lock.unlock();
         }
     }
 
-
+    /**
+     * SocketProcessor实现该方法
+     */
     protected abstract void doRun();
 }

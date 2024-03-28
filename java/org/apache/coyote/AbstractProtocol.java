@@ -840,12 +840,14 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler, MBeanRegis
                 return SocketState.CLOSED;
             }
 
+            // 获取NioChannel
             S socket = wrapper.getSocket();
 
             // We take complete ownership of the Processor inside of this method to ensure
             // no other thread can release it while we're using it. Whatever processor is
             // held by this variable will be associated with the SocketWrapper before this
             // method returns.
+            // 获取当前处理器
             Processor processor = (Processor) wrapper.takeCurrentProcessor();
             if (getLog().isTraceEnabled()) {
                 getLog().trace(sm.getString("abstractConnectionHandler.connectionsGet", processor, socket));
@@ -912,6 +914,7 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler, MBeanRegis
                         getLog().trace(sm.getString("abstractConnectionHandler.processorPop", processor));
                     }
                 }
+                // 没有创建新的Processor
                 if (processor == null) {
                     processor = getProtocol().createProcessor();
                     register(processor);
@@ -925,6 +928,7 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler, MBeanRegis
 
                 SocketState state = SocketState.CLOSED;
                 do {
+                    // 调佣应用层处理器处理逻辑
                     state = processor.process(wrapper, status);
 
                     if (state == SocketState.UPGRADING) {

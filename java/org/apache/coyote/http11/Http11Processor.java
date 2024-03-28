@@ -249,12 +249,14 @@ public class Http11Processor extends AbstractProcessor {
         setSocketWrapper(socketWrapper);
 
         // Flags
+        // 协议变量
         keepAlive = true;
         openSocket = false;
         readComplete = true;
         boolean keptAlive = false;
         SendfileState sendfileState = SendfileState.DONE;
 
+        // 解析原生Request
         while (!getErrorState().isError() && keepAlive && !isAsync() && upgradeToken == null &&
                 sendfileState == SendfileState.DONE && !protocol.isPaused()) {
 
@@ -387,6 +389,7 @@ public class Http11Processor extends AbstractProcessor {
             if (getErrorState().isIoAllowed()) {
                 try {
                     rp.setStage(org.apache.coyote.Constants.STAGE_SERVICE);
+                    // 请求交给适配器
                     getAdapter().service(request, response);
                     // Handle when the response was committed before a serious
                     // error occurred. Throwing a ServletException should both

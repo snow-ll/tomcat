@@ -279,7 +279,7 @@ public final class Mapper {
             ContextVersion newContextVersion =
                     new ContextVersion(version, path, slashCount, context, resources, welcomeResources);
             if (wrappers != null) {
-                // 添加Servlet
+                // 添加Wrappers(Servlet)
                 addWrappers(newContextVersion, wrappers);
             }
 

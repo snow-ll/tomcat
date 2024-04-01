@@ -208,7 +208,7 @@ public final class ApplicationFilterChain implements FilterChain {
                 Object[] args = new Object[] { req, res };
                 SecurityUtil.doAsPrivilege("service", servlet, classTypeUsedInService, args, principal);
             } else {
-                // Servlet执行请求
+                // 执行请求调用对应的Servlet
                 servlet.service(request, response);
             }
         } catch (IOException | ServletException | RuntimeException e) {

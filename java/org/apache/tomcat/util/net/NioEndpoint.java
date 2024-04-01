@@ -841,6 +841,7 @@ public class NioEndpoint extends AbstractJsseEndpoint<NioChannel,SocketChannel> 
                     // Attachment may be null if another thread has called
                     // cancelledKey()
                     if (socketWrapper != null) {
+                        // 请求入口
                         processKey(sk, socketWrapper);
                     }
                 }

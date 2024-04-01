@@ -1319,7 +1319,7 @@ public abstract class AbstractEndpoint<S,U> {
             }
             Executor executor = getExecutor();
             if (dispatch && executor != null) {
-                // 使用线程池技术执行SocketProcessorBase线程
+                // 使用线程池技术执行SocketProcessorBase线程(SocketProcessorBase.run)
                 executor.execute(sc);
             } else {
                 sc.run();

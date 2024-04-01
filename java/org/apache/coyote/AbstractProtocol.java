@@ -840,7 +840,7 @@ public abstract class AbstractProtocol<S> implements ProtocolHandler, MBeanRegis
                 return SocketState.CLOSED;
             }
 
-            // 获取NioChannel
+            // 获取NioChannel(Socket)
             S socket = wrapper.getSocket();
 
             // We take complete ownership of the Processor inside of this method to ensure

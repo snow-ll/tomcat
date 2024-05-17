@@ -476,7 +476,7 @@ public final class Bootstrap {
             } else if (command.equals("start")) {
                 // org.apache.catalina.startup.Catalina
                 // 链式调用init、start
-                // Catalina -> Server -> GlobalNamingResources -> Service -> (Engine -> Host -> Context) -> Connector -> ProtocolHandler -> NioEndpoint(父类AbstractEndpoint)
+                // Catalina -> Server -> GlobalNamingResources -> Service -> (Engine/Host -> Context -> Servlet)/Connector -> ProtocolHandler -> NioEndpoint(父类AbstractEndpoint)
 
                 // 设置Catalina.await
                 daemon.setAwait(true);
